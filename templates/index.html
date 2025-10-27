@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Image Caption Generator</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="glass-card">
+    <h1>AI Image Caption Generator</h1>
+    <p class="tagline">Describe your images with AI magic ✨</p>
+
+    <form id="uploadForm" action="/predict" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" id="fileInput" required>
+      <div id="preview"></div>
+      <button type="submit" id="generateBtn">Generate Caption</button>
+    </form>
+
+    <div id="loading" class="hidden">
+      <div class="spinner"></div>
+      <p>Generating Caption...</p>
+    </div>
+
+    <footer>Built by <b>Sawood Shaik</b></footer>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+    const preview = document.getElementById('preview');
+    const fileInput = document.getElementById('fileInput');
+
+    fileInput.addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = ev => {
+          preview.innerHTML = `<img src="${ev.target.result}" alt="preview">`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    form.addEventListener('submit', () => {
+      loading.classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
